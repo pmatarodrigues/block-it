@@ -24,8 +24,9 @@ function openingHeader {
 
 function firstMenu {
   printf "  [1] Remove device from network \n"
-  printf "  [2] Show devices in the network \n\n"
-  printf "  [3] EXIT \n"
+  printf "  [2] Show devices in the network \n"
+  printf "  [3] Man in the Midle\n\n"
+  printf "  [4] EXIT \n"
 
   read -n 1 -s -r firstMenuSelectedOption
 
@@ -37,7 +38,11 @@ function firstMenu {
     then
       getIPAddressesInNetwork
       showDevicesInNetwork
-  elif [ $firstMenuSelectedOption = 3 ]
+  elif  [ $firstMenuSelectedOption = 3 ]
+    then
+      getIPAddressesInNetworkMIM
+      selectedTarget
+  elif [ $firstMenuSelectedOption = 4 ]
     then
       printf "\n\n"
       printf "  ${YELLOW}Bye! Have a great time!\n  ${WHITE}\n\n"

@@ -2,6 +2,7 @@
 
 source "menus.sh"
 source "remove_from_network.sh"
+source "man_in_middle.sh"
 
 RED='\033[1;31m'
 YELLOW='\033[1;33m'

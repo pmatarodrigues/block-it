@@ -52,7 +52,7 @@ function askForAnyKeyReturn {
 
   printf "\n\n"
   read -n 1 -s -r -p "     Press any key to return to MENU...
-      
+
 
       "
   return

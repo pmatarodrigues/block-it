@@ -1,12 +1,12 @@
 #!/bin/bash
 
 function enablePacketFowarding {
-  defaultInterface=$(sysctl -w net.ipv4.ip_forward=1)
+  sysctl -w net.ipv4.ip_forward=1
   printf "\n Packet Forwarding Enabled \n\n";
 }
 
 function disablePacketFowarding {
-  defaultInterface=$(sysctl -w net.ipv4.ip_forward=0)
+  sysctl -w net.ipv4.ip_forward=0
   print "\n Packet Forwarding Disabled \n\n";
 }
 

